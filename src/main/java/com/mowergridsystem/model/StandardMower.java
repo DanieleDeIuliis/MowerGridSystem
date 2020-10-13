@@ -14,7 +14,7 @@ public class StandardMower implements Mower{
     private int currentOrientationIndex;
     private Position position;
 
-    StandardMower(Position position, OrientationEnum orientation){
+    public StandardMower(Position position, OrientationEnum orientation){
         this.position = position;
         this.currentOrientationIndex = convertOrientationToIndex(orientation);
     }
