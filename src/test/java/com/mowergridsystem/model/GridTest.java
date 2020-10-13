@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 public class GridTest {
     public static Grid grid;
 
@@ -18,7 +16,7 @@ public class GridTest {
     public void invertPositionIsOccupiedStateTestFromFalseToTrue(){
         Position position = new Position(1,1);
         grid.invertPositionIsOccupiedState(position);
-        Assertions.assertTrue(grid.isCellAtPositionOccupied(position));
+        Assertions.assertTrue(grid.isCellOccupied(position));
         grid.invertPositionIsOccupiedState(position);
 
     }
@@ -29,7 +27,7 @@ public class GridTest {
         Position position = new Position(1,1);
         Cell copiedCell = clonedBoard[1][1];
         copiedCell.setOccupied(true);
-        boolean originalValue = grid.isCellAtPositionOccupied(position);
+        boolean originalValue = grid.isCellOccupied(position);
         Assertions.assertNotEquals(originalValue, copiedCell.isOccupied());
 
     }

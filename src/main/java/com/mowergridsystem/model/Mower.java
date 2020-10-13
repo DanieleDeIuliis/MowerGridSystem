@@ -1,8 +1,8 @@
 package com.mowergridsystem.model;
 
 public interface Mower {
-    void moveHorizontally();
-    void moveVertically();
+    void move(Position position);
     void changeOrientation(CommandEnum direction);
     OrientationEnum getCurrentOrientation();
+    Position getPosition();
 }

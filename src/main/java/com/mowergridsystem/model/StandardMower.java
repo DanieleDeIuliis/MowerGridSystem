@@ -19,28 +19,9 @@ public class StandardMower implements Mower{
         this.currentOrientationIndex = convertOrientationToIndex(orientation);
     }
 
-//    @Override
-//    public void move() {
-//        OrientationEnum currentOrientation = getCurrentOrientation();
-//        int amountToMove = currentOrientation.getValue();
-//        if(isOrientationHorizontal(currentOrientation))
-//            moveHorizontally(amountToMove);
-//        else
-//            moveVertically(amountToMove);
-//    }
-
     @Override
-    public void moveHorizontally(){
-        OrientationEnum currentOrientation = getCurrentOrientation();
-        int newCoordinate = position.getXCoordinate() + currentOrientation.getValue();
-        position.setXCoordinate(newCoordinate);
-    }
-
-    @Override
-    public void moveVertically(){
-        OrientationEnum currentOrientation = getCurrentOrientation();
-        int newCoordinate = position.getYCoordinate() + currentOrientation.getValue();
-        position.setYCoordinate(newCoordinate);
+    public void move(Position position) {
+        this.position = position;
     }
 
     @Override
@@ -56,11 +37,6 @@ public class StandardMower implements Mower{
     @Override
     public OrientationEnum getCurrentOrientation(){
         return orderedOrientations[currentOrientationIndex];
-    }
-
-
-    public boolean isOrientationHorizontal(OrientationEnum currentOrientation){
-        return currentOrientation == EST || currentOrientation == WEST;
     }
 
     private int convertOrientationToIndex(OrientationEnum orientation){

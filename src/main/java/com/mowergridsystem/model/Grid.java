@@ -12,7 +12,11 @@ public class Grid {
 
     private Cell[][] board;
 
+    private final int rows, columns;
+
     public Grid(int rows, int columns){
+        this.rows = rows;
+        this.columns = columns;
         board = new Cell[rows][columns];
         initializeBoard();
     }
@@ -22,14 +26,22 @@ public class Grid {
     }
 
 
-    public boolean isCellAtPositionOccupied(Position position){
-        return (board[position.getXCoordinate()][position.getYCoordinate()]).isOccupied();
+    public boolean isCellOccupied(Position position){
+        return (board[position.getColumnCoordinate()][position.getRowCoordinate()]).isOccupied();
     }
 
     public void invertPositionIsOccupiedState(Position position){
-        Cell currentCell = board[position.getXCoordinate()][position.getYCoordinate()];
+        Cell currentCell = board[position.getRowCoordinate()][position.getColumnCoordinate()];
         boolean invertedCurrentCellState = !currentCell.isOccupied();
         currentCell.setOccupied(invertedCurrentCellState);
+    }
+
+    public int getRowsNumber() {
+        return rows;
+    }
+
+    public int getColumnsNumber() {
+        return columns;
     }
 
     private void initializeBoard(){

@@ -11,8 +11,8 @@ public class StandardMowerTest {
     public void standardMowerTestCorrectInitialization(){
         StandardMower standardMower = new StandardMower(new Position(2,1),
                 NORTH);
-        Assertions.assertEquals(2,standardMower.getPosition().getXCoordinate());
-        Assertions.assertEquals(1,standardMower.getPosition().getYCoordinate());
+        Assertions.assertEquals(2,standardMower.getPosition().getColumnCoordinate());
+        Assertions.assertEquals(1,standardMower.getPosition().getRowCoordinate());
         Assertions.assertEquals(0, standardMower.getCurrentOrientationIndex());
         Assertions.assertEquals(NORTH, standardMower.getCurrentOrientation());
     }
@@ -34,37 +34,12 @@ public class StandardMowerTest {
     }
 
     @Test
-    public void isOrientationHorizontalTestSuccessAfterOrientationChange(){
-        StandardMower standardMower = new StandardMower(new Position(2,1),
-                NORTH);
-        OrientationEnum currentOrientation = standardMower.getCurrentOrientation();
-        Assertions.assertFalse(standardMower.isOrientationHorizontal(currentOrientation));
-        standardMower.changeOrientation(LEFT);
-        currentOrientation = standardMower.getCurrentOrientation();
-        Assertions.assertTrue(standardMower.isOrientationHorizontal(currentOrientation));
-    }
-
-    @Test
     public void moveHorizontallyTestCorrectPositionUpdated(){
         StandardMower standardMower = new StandardMower(new Position(2,1),
                 EST);
-        standardMower.moveHorizontally();
-        Assertions.assertEquals(3, standardMower.getPosition().getXCoordinate());
-        standardMower.changeOrientation(LEFT);
-        standardMower.changeOrientation(LEFT);
-        standardMower.moveHorizontally();
-        Assertions.assertEquals(2, standardMower.getPosition().getXCoordinate());
+        standardMower.move(new Position(3,2));
+        Assertions.assertEquals(3, standardMower.getPosition().getColumnCoordinate());
+        Assertions.assertEquals(2, standardMower.getPosition().getRowCoordinate());
     }
 
-    @Test
-    public void moveVerticallyTestCorrectPositionUpdated(){
-        StandardMower standardMower = new StandardMower(new Position(2,1),
-                NORTH);
-        standardMower.moveVertically();
-        Assertions.assertEquals(2, standardMower.getPosition().getYCoordinate());
-        standardMower.changeOrientation(LEFT);
-        standardMower.changeOrientation(LEFT);
-        standardMower.moveVertically();
-        Assertions.assertEquals(1, standardMower.getPosition().getYCoordinate());
-    }
 }
