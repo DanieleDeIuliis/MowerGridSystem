@@ -1,10 +1,10 @@
 package com.mowergridsystem.model;
 
 public enum OrientationEnum {
-    NORTH(-1),
-    EST(1),
-    SUD(1),
-    WEST(-1);
+    N(-1),
+    E(1),
+    S(1),
+    W(-1);
 
     private final int value;
     private OrientationEnum(int value){

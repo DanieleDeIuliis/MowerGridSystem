@@ -10,7 +10,7 @@ import static com.mowergridsystem.model.OrientationEnum.*;
 public class StandardMower implements Mower{
 
     private static final int MAX_ORIENTATIONS_SIZE = 4;
-    private static final OrientationEnum[] orderedOrientations = {NORTH, EST, SUD, WEST};
+    private static final OrientationEnum[] orderedOrientations = {N, E, S, W};
     private int currentOrientationIndex;
     private Position position;
 

@@ -1,6 +1,7 @@
 package com.mowergridsystem.model;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.util.Arrays;

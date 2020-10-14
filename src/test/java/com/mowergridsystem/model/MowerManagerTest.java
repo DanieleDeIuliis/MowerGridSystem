@@ -11,10 +11,10 @@ import static org.mockito.Mockito.*;
 
 public class MowerManagerTest {
 
-    private Grid grid = mock(Grid.class);
-    private Mower mower = mock(StandardMower.class);
-    private Queue<CommandEnum> commands = mock(Queue.class);
-    private MowerManager mowerManager = new MowerManager(mower, commands, grid);
+    private Grid grid;
+    private Mower mower;
+    private Queue<CommandEnum> commands;
+    private MowerManager mowerManager;
 
     @BeforeEach
     void beforeEach(){
@@ -26,20 +26,28 @@ public class MowerManagerTest {
 
     @Test
     public void testExecuteNextCommandTurnLeft(){
-        doReturn(CommandEnum.LEFT).when(commands).poll();
+        doReturn(CommandEnum.L).when(commands).poll();
         doNothing().when(mower).changeOrientation(any(CommandEnum.class));
         Assertions.assertTrue(mowerManager.executeNextCommand());
     }
 
     @Test
+    public void testExecuteNextCommandMoveForward(){
+        doReturn(CommandEnum.F).when(commands).poll();
+        doReturn(OrientationEnum.W).when(mower).getCurrentOrientation();
+        doReturn(new Position(1,1)).when(mower).getPosition();
+        doReturn(2).when(grid).getRowsNumber();
+        doReturn(2).when(grid).getColumnsNumber();
+        Assertions.assertTrue(mowerManager.executeNextCommand());
+    }
+
+    @Test
     public void testExecuteNextCommandMoveFailure(){
-        doReturn(CommandEnum.FORWARD).when(commands).poll();
-        doReturn(OrientationEnum.NORTH).when(mower).getCurrentOrientation();
+        doReturn(CommandEnum.F).when(commands).poll();
+        doReturn(OrientationEnum.N).when(mower).getCurrentOrientation();
         doReturn(new Position(0,0)).when(mower).getPosition();
         doReturn(2).when(grid).getRowsNumber();
         doReturn(2).when(grid).getColumnsNumber();
         Assertions.assertFalse(mowerManager.executeNextCommand());
     }
-
-
 }

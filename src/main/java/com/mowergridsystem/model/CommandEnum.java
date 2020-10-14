@@ -1,9 +1,9 @@
 package com.mowergridsystem.model;
 
 public enum CommandEnum {
-    LEFT(-1),
-    RIGHT(1),
-    FORWARD(0);
+    L(-1),
+    R(1),
+    F(0);
 
     private final int value;
     private CommandEnum(int value){

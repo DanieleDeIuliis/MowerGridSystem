@@ -1,7 +1,7 @@
 package com.mowergridsystem.model;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
 import java.util.Queue;
 import java.util.function.BiPredicate;
@@ -9,34 +9,23 @@ import java.util.function.BiPredicate;
 import static com.mowergridsystem.model.CommandEnum.*;
 
 @AllArgsConstructor
-@NoArgsConstructor
 public class MowerManager {
-
+    @Getter
     private Mower mower;
+    @Getter
     private Queue<CommandEnum> commands;
+    @Getter
     private Grid grid;
 
     public boolean executeNextCommand(){
         boolean commandSuccess;
         CommandEnum command = commands.poll();
-        if(command == FORWARD){
+        if(command == F){
             commandSuccess = moveMower();
         }else{
             commandSuccess = changeMowerOrientation(command);
         }
         return commandSuccess;
-    }
-
-    public Mower getMower() {
-        return mower;
-    }
-
-    public Queue<CommandEnum> getCommands() {
-        return commands;
-    }
-
-    public Grid getGrid() {
-        return grid;
     }
 
     private boolean moveMower() {
@@ -45,8 +34,8 @@ public class MowerManager {
         int rowIndex = mower.getPosition().getRowCoordinate();
         int columnIndex = mower.getPosition().getColumnCoordinate();
         switch (currentOrientation) {
-            case NORTH, SUD -> rowIndex += amountToMove;
-            case EST, WEST -> columnIndex += amountToMove;
+            case N, S -> rowIndex += amountToMove;
+            case E, W -> columnIndex += amountToMove;
         }
         Position nextPosition = new Position(rowIndex, columnIndex);
         if(isNextPositionValid.test(nextPosition, grid)){
