@@ -31,14 +31,15 @@ public class MowerManager {
     private boolean moveMower() {
         OrientationEnum currentOrientation = mower.getCurrentOrientation();
         int amountToMove = currentOrientation.getValue();
-        int rowIndex = mower.getPosition().getRowCoordinate();
-        int columnIndex = mower.getPosition().getColumnCoordinate();
+        Position currentPosition = mower.getPosition();
+        int rowIndex = currentPosition.getRowCoordinate();
+        int columnIndex = currentPosition.getColumnCoordinate();
         switch (currentOrientation) {
             case N, S -> rowIndex += amountToMove;
             case E, W -> columnIndex += amountToMove;
         }
         Position nextPosition = new Position(rowIndex, columnIndex);
-        if(isNextPositionValid.test(nextPosition, grid)){
+        if(grid.checkPositionAndChangeState(currentPosition, nextPosition)){
             mower.move(nextPosition);
             return true;
         }
@@ -49,12 +50,6 @@ public class MowerManager {
         mower.changeOrientation(direction);
         return true;
     }
-
-    private final BiPredicate<Position, Grid> isPositionInsideBoard = (p, g) ->
-            ( p.getRowCoordinate() >= 0 && p.getRowCoordinate() < g.getRowsNumber()) &&
-            (p.getColumnCoordinate() >= 0 && p.getColumnCoordinate() < g.getColumnsNumber());
-    private final BiPredicate<Position, Grid> isNextPositionValid = (p,g) -> isPositionInsideBoard.test(p,g) &&
-            !g.isCellOccupied(p);
 
 
 }

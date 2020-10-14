@@ -21,11 +21,11 @@ public class InputParserTest {
                         getResource("inputParser/CorrectInputFormat").getFile());
         List<MowerManager> managers = new InputParser().parseInputFromFile(inputTestFile);
         Grid grid = managers.get(0).getGrid();
-        Assertions.assertEquals(5, grid.getRowsNumber());
-        Assertions.assertEquals(5, grid.getColumnsNumber());
+        Assertions.assertEquals(6, grid.getRowsNumber());
+        Assertions.assertEquals(6, grid.getColumnsNumber());
         Mower mower = managers.get(0).getMower();
         Assertions.assertEquals(3,mower.getPosition().getRowCoordinate());
-        Assertions.assertEquals(2,mower.getPosition().getColumnCoordinate());
+        Assertions.assertEquals(1,mower.getPosition().getColumnCoordinate());
         Assertions.assertEquals(OrientationEnum.N, mower.getCurrentOrientation());
         Queue<CommandEnum> commands = managers.get(0).getCommands();
         Assertions.assertEquals(3,commands.size());

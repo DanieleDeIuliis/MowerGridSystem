@@ -1,11 +1,9 @@
 package com.mowergridsystem.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import static com.mowergridsystem.model.OrientationEnum.*;
 
-@NoArgsConstructor
 @Data
 public class StandardMower implements Mower{
 

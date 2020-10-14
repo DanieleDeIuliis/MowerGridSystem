@@ -11,6 +11,7 @@ import java.util.*;
 public class InputParser {
 
     private int gridRowSize;
+    private int gridColumnSize;
 
     public List<MowerManager> parseInputFromFile(File input)
             throws FileNotFoundException, EmptyInputException, BadInputFormatException {
@@ -20,9 +21,9 @@ public class InputParser {
                 String gridBounds = scanInput.hasNextLine() ? scanInput.nextLine() : "";
                 Grid grid = createGridFromInputLine(gridBounds);
                 while(scanInput.hasNextLine()){
-                    String mowerCoordinates = scanInput.nextLine();
+                    String mowerCoordinates = scanInput.nextLine().trim();
                     if(scanInput.hasNextLine()){
-                        String mowerCommands = scanInput.nextLine();
+                        String mowerCommands = scanInput.nextLine().trim();
                         mowerManagers.add(createMowerManagerFromInput(mowerCoordinates,mowerCommands, grid));
                     }else
                         throw new BadInputFormatException();
@@ -38,6 +39,7 @@ public class InputParser {
                                                      Grid grid)
             throws BadInputFormatException {
         Mower mower = createMowerFromInput(mowerCoordinates);
+        grid.invertPositionIsOccupiedState(mower.getPosition());
         Queue<CommandEnum> commands = createCommandsQueue(mowerCommands);
         return new MowerManager(mower, commands, grid);
 
@@ -56,25 +58,17 @@ public class InputParser {
         String[] positionEntries = mowerCoordinates.split(" ");
         if(positionEntries.length != 3)
             throw new BadInputFormatException();
-        Position position = createPosition(positionEntries[0], positionEntries[1]);
+        String rowIndex = positionEntries[1];
+        String columnIndex = positionEntries[0];
+        Position position = createPosition(rowIndex, columnIndex);
         OrientationEnum orientation = OrientationEnum.valueOf(positionEntries[2]);
         return new StandardMower(position, orientation);
     }
 
     private Position createPosition(String rowIndex, String columnIndex) {
-        int rowIndexValue = convertRowValue(rowIndex);
+        int rowIndexValue = (gridRowSize - 1) - Integer.parseInt(rowIndex);
         int columnIndexValue = Integer.parseInt(columnIndex);
         return new Position(rowIndexValue, columnIndexValue);
-    }
-
-    /**
-     *
-     * @param rowIndex string value of the row coordinate starting from the bottom of the grid
-     * @return the int value of the row coordinate starting from the top to follow the usual notation for matrix
-     */
-    private int convertRowValue(String rowIndex) {
-        int rowIntValue = Integer.parseInt(rowIndex);
-        return (gridRowSize - 1) - rowIntValue;
     }
 
     private Grid createGridFromInputLine(String gridBounds)
@@ -85,7 +79,8 @@ public class InputParser {
                 .mapToInt(Integer::parseInt).toArray();
         if(bounds.length != 2)
             throw new BadInputFormatException();
-        gridRowSize = bounds[0];
-        return new Grid(bounds[0], bounds[1]);
+        gridRowSize = bounds[1] + 1;
+        gridColumnSize = bounds[0] + 1;
+        return new Grid(gridRowSize, gridColumnSize);
     }
 }

@@ -1,14 +1,9 @@
 package com.mowergridsystem.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
 import java.util.Arrays;
 import java.util.function.Function;
 
-@EqualsAndHashCode
-@ToString
+
 public class Grid {
 
     private Cell[][] board;
@@ -28,7 +23,7 @@ public class Grid {
 
 
     public boolean isCellOccupied(Position position){
-        return (board[position.getColumnCoordinate()][position.getRowCoordinate()]).isOccupied();
+        return (board[position.getRowCoordinate()][position.getColumnCoordinate()]).isOccupied();
     }
 
     public void invertPositionIsOccupiedState(Position position){
@@ -43,6 +38,15 @@ public class Grid {
 
     public int getColumnsNumber() {
         return columns;
+    }
+
+    public synchronized boolean checkPositionAndChangeState(Position oldPosition, Position newPosition){
+        if(isNewPositionValid(newPosition)){
+            invertPositionIsOccupiedState(oldPosition);
+            invertPositionIsOccupiedState(newPosition);
+            return true;
+        }
+        return false;
     }
 
     private void initializeBoard(){
@@ -61,5 +65,14 @@ public class Grid {
         }
         return copy;
     };
+
+    private boolean isPositionInsideBoard(Position newPosition){
+        int newRow = newPosition.getRowCoordinate();
+        int newColumn = newPosition.getColumnCoordinate();
+        return newRow >= 0 && newRow < rows && newColumn >= 0 && newColumn < columns;
+    }
+    private boolean isNewPositionValid(Position newPosition){
+        return isPositionInsideBoard(newPosition) && !isCellOccupied(newPosition);
+    }
 
 }

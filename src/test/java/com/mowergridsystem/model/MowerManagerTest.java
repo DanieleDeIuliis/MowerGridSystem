@@ -17,7 +17,7 @@ public class MowerManagerTest {
     private MowerManager mowerManager;
 
     @BeforeEach
-    void beforeEach(){
+    public void setUp(){
         grid = mock(Grid.class);
         mower = mock(StandardMower.class);
         commands = mock(Queue.class);
@@ -35,9 +35,8 @@ public class MowerManagerTest {
     public void testExecuteNextCommandMoveForward(){
         doReturn(CommandEnum.F).when(commands).poll();
         doReturn(OrientationEnum.W).when(mower).getCurrentOrientation();
-        doReturn(new Position(1,1)).when(mower).getPosition();
-        doReturn(2).when(grid).getRowsNumber();
-        doReturn(2).when(grid).getColumnsNumber();
+        doReturn(new Position(0,1)).when(mower).getPosition();
+        doReturn(true).when(grid).checkPositionAndChangeState(any(Position.class),any(Position.class));
         Assertions.assertTrue(mowerManager.executeNextCommand());
     }
 
