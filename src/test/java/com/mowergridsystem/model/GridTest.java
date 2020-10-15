@@ -13,7 +13,7 @@ public class GridTest {
     }
 
     @Test
-    public void invertPositionIsOccupiedStateTestFromFalseToTrue(){
+    public void testInvertPositionIsOccupiedStateFromFalseToTrue(){
         Position position = new Position(1,1);
         grid.invertPositionIsOccupiedState(position);
         Cell cell = grid.getBoard()[position.getRowCoordinate()][position.getColumnCoordinate()];
@@ -23,7 +23,7 @@ public class GridTest {
     }
 
     @Test
-    public void getBoardTestSuccessfulComparison(){
+    public void testGetBoardSuccessfulComparison(){
         Cell[][] clonedBoard = grid.getBoard();
         Position position = new Position(1,1);
         Cell copiedCell = clonedBoard[1][1];

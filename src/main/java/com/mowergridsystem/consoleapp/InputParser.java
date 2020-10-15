@@ -44,7 +44,7 @@ public class InputParser {
             try {
                 mowerManagers.add(createMowerManagerFromInput(mowerCoordinates, mowerCommands, grid));
             }catch(BadInputFormatException e){
-                log.debug("The input is not formatted as expected. The mower with coordinates: {} " +
+                log.warn("The input is not formatted as expected. The mower with coordinates: {} " +
                                 "and commands: {} has been skipped.",
                         mowerCoordinates, mowerCommands);
             }

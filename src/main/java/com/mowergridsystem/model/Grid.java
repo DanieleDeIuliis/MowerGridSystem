@@ -46,13 +46,13 @@ public class Grid {
      * Inverts the state of a cell which could be either free or occupied
      * @param position position representing the cell to change
      */
-    public void invertPositionIsOccupiedState(Position position){
+    public synchronized void invertPositionIsOccupiedState(Position position){
         Cell currentCell = board[position.getRowCoordinate()][position.getColumnCoordinate()];
         boolean invertedCurrentCellState = !currentCell.isOccupied();
         currentCell.setOccupied(invertedCurrentCellState);
     }
 
-    public boolean isNewPositionValid(Position newPosition){
+    public synchronized boolean isNewPositionValid(Position newPosition){
         return isPositionInsideBoard(newPosition) && !isCellOccupied(newPosition);
     }
 

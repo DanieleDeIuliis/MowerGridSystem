@@ -8,7 +8,7 @@ import static com.mowergridsystem.model.OrientationEnum.*;
 
 public class StandardMowerTest {
     @Test
-    public void standardMowerTestCorrectInitialization(){
+    public void testStandardMowerCorrectInitialization(){
         StandardMower standardMower = new StandardMower(new Position(1,2),
                 N);
         Assertions.assertEquals(2,standardMower.getPosition().getColumnCoordinate());
@@ -18,7 +18,7 @@ public class StandardMowerTest {
     }
 
     @Test
-    public void changeOrientationTestSuccessfulNegativeShift(){
+    public void testChangeOrientationSuccessfulNegativeShift(){
         StandardMower standardMower = new StandardMower(new Position(1,2),
                 N);
         standardMower.changeOrientation(L);
@@ -26,7 +26,7 @@ public class StandardMowerTest {
     }
 
     @Test
-    public void changeOrientationTestSuccessfulPositiveShift(){
+    public void testChangeOrientationSuccessfulPositiveShift(){
         StandardMower standardMower = new StandardMower(new Position(1,2),
                 W);
         standardMower.changeOrientation(CommandEnum.R);
@@ -34,7 +34,7 @@ public class StandardMowerTest {
     }
 
     @Test
-    public void moveHorizontallyTestCorrectPositionUpdated(){
+    public void testMoveHorizontallyCorrectPositionUpdated(){
         StandardMower standardMower = new StandardMower(new Position(1,2),
                 E);
         standardMower.move(new Position(1,3));

@@ -19,7 +19,7 @@ public class ConsoleAppTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"singleMower", "multipleMowers", "mowerCollision", "moveAlwaysLeft", "mowerCrash"})
-    public void testCallComputePriceAndTaxesService(String fileName)
+    public void testComputeMowerGridSystemService(String fileName)
             throws FileNotFoundException, InterruptedException, BadInputFormatException {
         String pathToTestFile =
                 this.getClass().getClassLoader().
