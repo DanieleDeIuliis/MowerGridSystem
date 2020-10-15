@@ -27,6 +27,10 @@ The output will be a list on screen with final position for each mower. Each lin
 ```bash
 MowerXCoordinate MowerYCoordinate MowerOrientation              |      1 3 N
 ```
+
+### Input assumptions
+* If the format of the grid is invalid, the program will stop its execution.
+* If the format of the mower is invalid, only the invalid mower will be skipped. 
 ## Notes
 ### Coordinates
 The input and ouput coordinates follow the "bottom left" notation, meaning that the bottom left cell has coordinates (0,0).
@@ -42,7 +46,7 @@ can check the state of a cell in the board and request the change.
 
 Three methods are synchronized:
 * checkPositionAndChangeState
-* invertPositionIsOccupiedState
+* invertCellState
 * isNewPositionValid
 
 ### Time assumption

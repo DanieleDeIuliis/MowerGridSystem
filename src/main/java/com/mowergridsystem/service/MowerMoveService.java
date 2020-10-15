@@ -35,7 +35,7 @@ public class MowerMoveService {
      * Computes one global step: Executes the next command of all the working manager.
      * After submitting the job to a thread in the pool.
      *
-     * It waits 1 MICROSECONDS to ensures that the behaviour during the tests is deterministic.
+     * It waits 1 MICROSECOND to ensure that the behaviour during the tests is deterministic.
      *
      * @param workingManagers the managers that have still commands to execute
      * @param threadPool the thread pool that will execute the commands. One per manager

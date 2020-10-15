@@ -13,7 +13,7 @@ public enum CommandEnum {
     F(0);
 
     private final int value;
-    private CommandEnum(int value){
+    CommandEnum(int value){
         this.value = value;
     }
 

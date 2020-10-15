@@ -54,8 +54,7 @@ public class MowerManager {
         return false;
     }
 
-    private Position computeNewPosition(OrientationEnum currentOrientation,
-                                        int amountToMove, Position currentPosition) {
+    private Position computeNewPosition(OrientationEnum currentOrientation, int amountToMove, Position currentPosition) {
         int rowIndex = currentPosition.getRowCoordinate();
         int columnIndex = currentPosition.getColumnCoordinate();
         switch (currentOrientation) {

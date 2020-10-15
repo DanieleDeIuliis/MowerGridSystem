@@ -56,7 +56,7 @@ public class InputParser {
             throws BadInputFormatException {
         if(isMowerInputValid(mowerCoordinates ,mowerCommands, grid)){
             Mower mower = createMowerFromInput(mowerCoordinates);
-            grid.invertPositionIsOccupiedState(mower.getPosition());
+            grid.invertCellState(mower.getPosition());
             Queue<CommandEnum> commands = createCommandsQueue(mowerCommands);
             return new MowerManager(mower, commands, grid);
         }else{
@@ -176,7 +176,8 @@ public class InputParser {
         }
         int[] bounds = Arrays.stream(gridBounds.split(" "))
                 .mapToInt(Integer::parseInt).toArray();
-        return bounds.length == GRID_DIMENSIONS && (bounds[0] > 0 || bounds[1] > 0);
+        return bounds.length == GRID_DIMENSIONS && (bounds[0] >= 0 && bounds[1] >= 0) &&
+                (bounds[0] > 0 || bounds[1] > 0);
     }
 
 }

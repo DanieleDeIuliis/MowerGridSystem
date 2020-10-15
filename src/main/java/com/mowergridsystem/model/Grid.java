@@ -1,12 +1,10 @@
 package com.mowergridsystem.model;
 
 import java.util.Arrays;
-import java.util.function.Function;
-
 
 public class Grid {
 
-    private Cell[][] board;
+    private final Cell[][] board;
 
     private final int rows, columns;
 
@@ -21,7 +19,7 @@ public class Grid {
      * @return a deep copy of the board
      */
     public Cell[][] getBoard(){
-        return Arrays.stream(board).map(copyRow).toArray(Cell[][]::new);
+        return Arrays.stream(board).map(this::copyRow).toArray(Cell[][]::new);
     }
 
     /**
@@ -35,8 +33,8 @@ public class Grid {
      */
     public synchronized boolean checkPositionAndChangeState(Position oldPosition, Position newPosition){
         if(isNewPositionValid(newPosition)){
-            invertPositionIsOccupiedState(oldPosition);
-            invertPositionIsOccupiedState(newPosition);
+            invertCellState(oldPosition);
+            invertCellState(newPosition);
             return true;
         }
         return false;
@@ -46,7 +44,7 @@ public class Grid {
      * Inverts the state of a cell which could be either free or occupied
      * @param position position representing the cell to change
      */
-    public synchronized void invertPositionIsOccupiedState(Position position){
+    public synchronized void invertCellState(Position position){
         Cell currentCell = board[position.getRowCoordinate()][position.getColumnCoordinate()];
         boolean invertedCurrentCellState = !currentCell.isOccupied();
         currentCell.setOccupied(invertedCurrentCellState);
@@ -70,14 +68,13 @@ public class Grid {
                 board[r][c] = new Cell();
     }
 
-    private Function<Cell[],Cell[]> copyRow = row -> {
-        Cell[] copy = new Cell[row.length];
-        for(int i = 0; i < row.length; i++){
-            copy[i] = new Cell();
-            copy[i].setOccupied(row[i].isOccupied());
-        }
-        return copy;
-    };
+    private Cell[] copyRow(Cell[] originalRow){
+        return Arrays.stream(originalRow).map(cell -> {
+            Cell newCell = new Cell();
+            newCell.setOccupied(cell.isOccupied());
+            return newCell;
+        }).toArray(Cell[]::new);
+    }
 
     private boolean isPositionInsideBoard(Position newPosition){
         int newRow = newPosition.getRowCoordinate();

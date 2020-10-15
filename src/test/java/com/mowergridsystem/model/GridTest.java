@@ -15,10 +15,10 @@ public class GridTest {
     @Test
     public void testInvertPositionIsOccupiedStateFromFalseToTrue(){
         Position position = new Position(1,1);
-        grid.invertPositionIsOccupiedState(position);
+        grid.invertCellState(position);
         Cell cell = grid.getBoard()[position.getRowCoordinate()][position.getColumnCoordinate()];
         Assertions.assertTrue(cell.isOccupied());
-        grid.invertPositionIsOccupiedState(position);
+        grid.invertCellState(position);
 
     }
 

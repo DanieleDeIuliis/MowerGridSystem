@@ -16,7 +16,7 @@ public enum OrientationEnum {
     W(-1);
 
     private final int value;
-    private OrientationEnum(int value){
+    OrientationEnum(int value){
         this.value = value;
     }
 

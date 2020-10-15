@@ -27,7 +27,7 @@ public class MowerMoveServiceTest {
     }
 
     @Test
-    public void testExecuteCommands() throws InterruptedException {
+    public void testExecuteCommands() {
         doReturn(true).when(mowerManager).executeNextCommand();
         doReturn(commands).when(mowerManager).getCommands();
         doReturn(true).when(commands).isEmpty();
