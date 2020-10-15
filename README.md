@@ -45,6 +45,13 @@ Three methods are synchronized:
 * invertPositionIsOccupiedState
 * isNewPositionValid
 
+### Time assumption
+The service will execute one turn a time. During one turn each thread let the mower managers perform their next command 
+and it ends when all of them finish.
+
+The assumption here is that a mower requires the same amount of time to change its orientation and to move forward one cell. Doing so,
+it's also possible to forecast collisions between mowers.
+
 ### Sleep in MowerMoveService
 Even though the program performs as expected in a multi-thread environment it has been introduced a sleep between two
 submit of a job to a thread in the pull. This ensures a deterministic behaviour during the test phase. 
