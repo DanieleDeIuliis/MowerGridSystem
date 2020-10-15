@@ -81,14 +81,14 @@
                 <!-- JUnit 5 requires Surefire version 2.22.0 or higher -->
                 <version>${maven.surefire.plugin.version}</version>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>exec-maven-plugin</artifactId>-->
-<!--                <version>${exec.maven.plugin.version}</version>-->
-<!--                <configuration>-->
-<!--                    <mainClass></mainClass>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec.maven.plugin.version}</version>
+                <configuration>
+                    <mainClass>com.mowergridsystem.consoleapp.ConsoleApp</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

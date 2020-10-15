@@ -2,11 +2,13 @@ package com.mowergridsystem.consoleapp;
 
 import com.mowergridsystem.exceptions.BadInputFormatException;
 import com.mowergridsystem.model.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+@Slf4j
 public class InputParser {
 
     public static final int GRID_DIMENSIONS = 2;
@@ -31,7 +33,9 @@ public class InputParser {
                 try {
                     mowerManagers.add(createMowerManagerFromInput(mowerCoordinates, mowerCommands, grid));
                 }catch(BadInputFormatException e){
-                 //LOG
+                    log.debug("The input is not formatted as expected. The mower with coordinates: {} " +
+                                    "and commands: {} has been skipped.",
+                            mowerCoordinates, mowerCommands);
                 }
             }
             return mowerManagers;
@@ -58,16 +62,20 @@ public class InputParser {
         if(mowerCommands.length() == 0)
             return false;
         for(char command : mowerCommands.toCharArray()){
-            if(!CommandEnum.contains(String.valueOf(command)))
+            if(!CommandEnum.contains(String.valueOf(command))){
+                log.debug("Mower commands: {} not valid.", mowerCommands);
                 return false;
+            }
         }
         return true;
     }
 
     private boolean areMowerCoordinatesValid(String mowerCoordinates, Grid grid) {
         for(int i = 0; i < mowerCoordinates.length() - 1; i++){
-            if(Character.isLetter(mowerCoordinates.charAt(i)))
+            if(Character.isLetter(mowerCoordinates.charAt(i))){
+                log.debug("Letter {} found as mower coordinate.", mowerCoordinates.charAt(i));
                 return false;
+            }
         }
         String[] coordinates = mowerCoordinates.split(" ");
         if(coordinates.length == COORDINATES_SIZE){
@@ -116,6 +124,7 @@ public class InputParser {
             gridColumnSize = bounds[0] + 1;
             return new Grid(gridRowSize, gridColumnSize);
         }else{
+            log.debug("Grid bounds: {} are not valid.", gridBounds);
             throw new BadInputFormatException();
         }
     }
@@ -124,8 +133,10 @@ public class InputParser {
         if(gridBounds.length() == 0)
             return false;
         for(char c : gridBounds.toCharArray()){
-            if(Character.isLetter(c))
+            if(Character.isLetter(c)){
+                log.debug("Letter {} found as grid index.", c);
                 return false;
+            }
         }
         int[] bounds = Arrays.stream(gridBounds.split(" "))
                 .mapToInt(Integer::parseInt).toArray();

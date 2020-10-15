@@ -2,7 +2,7 @@ package com.mowergridsystem.consoleapp;
 
 import com.mowergridsystem.exceptions.BadInputFormatException;
 import com.mowergridsystem.model.MowerManager;
-import com.mowergridsystem.service.ExecuteCommand;
+import com.mowergridsystem.service.MowerMoveService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,7 +13,7 @@ public class ConsoleApp {
 
     public static String computeMowerGridSystemService(String filePath)
             throws FileNotFoundException, BadInputFormatException, InterruptedException {
-        ExecuteCommand mowerService = new ExecuteCommand();
+        MowerMoveService mowerService = new MowerMoveService();
         List<MowerManager> managers;
         File inputFile = new File(filePath.trim());
         managers = new InputParser().parseInputFromFile(inputFile);

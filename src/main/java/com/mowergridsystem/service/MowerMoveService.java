@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class ExecuteCommand {
+public class MowerMoveService {
 
     public void executeCommands(List<MowerManager> mowerManagers) throws InterruptedException {
         int workingManagerSize = mowerManagers.size();

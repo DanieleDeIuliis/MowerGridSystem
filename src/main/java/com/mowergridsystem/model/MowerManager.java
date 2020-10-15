@@ -2,12 +2,14 @@ package com.mowergridsystem.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Queue;
 import java.util.function.BiPredicate;
 
 import static com.mowergridsystem.model.CommandEnum.*;
 
+@Slf4j
 @AllArgsConstructor
 public class MowerManager {
     @Getter
@@ -41,13 +43,17 @@ public class MowerManager {
         Position nextPosition = new Position(rowIndex, columnIndex);
         if(grid.checkPositionAndChangeState(currentPosition, nextPosition)){
             mower.move(nextPosition);
+            log.debug("Mower {} moved from position: {}, to {}.", mower.toString(),
+                    currentPosition.toString(), nextPosition.toString());
             return true;
         }
+        log.debug("Mower {} stands still.");
         return false;
     }
 
     private boolean changeMowerOrientation(CommandEnum direction) {
         mower.changeOrientation(direction);
+        log.debug("Mower {} changed orientation to: {}", mower.toString(), direction.name());
         return true;
     }
 

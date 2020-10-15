@@ -50,11 +50,9 @@ public class Grid {
     }
 
     private void initializeBoard(){
-        for(int r = 0; r < board.length; r++){
-            for(int c = 0; c < board[0].length; c++){
+        for(int r = 0; r < board.length; r++)
+            for(int c = 0; c < board[0].length; c++)
                 board[r][c] = new Cell();
-            }
-        }
     }
 
     private Function<Cell[],Cell[]> copyRow = row -> {
