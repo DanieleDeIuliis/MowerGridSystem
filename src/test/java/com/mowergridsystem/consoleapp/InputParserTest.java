@@ -1,10 +1,11 @@
 package com.mowergridsystem.consoleapp;
 
 import com.mowergridsystem.exceptions.BadInputFormatException;
-import com.mowergridsystem.exceptions.EmptyInputException;
 import com.mowergridsystem.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,12 +14,16 @@ import java.util.Queue;
 
 public class InputParserTest {
 
+    public static final String TEST_DIR = "inputParser/";
+    public static final String MOWER_DIR = "mower/";
+    public static final String GRID_DIR = "grid/";
+
     @Test
     public void testParseInputWithProperInput()
-            throws FileNotFoundException, BadInputFormatException, EmptyInputException {
+            throws FileNotFoundException, BadInputFormatException {
         File inputTestFile = new File(
                 InputParserTest.class.getClassLoader().
-                        getResource("inputParser/CorrectInputFormat").getFile());
+                        getResource(TEST_DIR + "correctInputFormat").getFile());
         List<MowerManager> managers = new InputParser().parseInputFromFile(inputTestFile);
         Grid grid = managers.get(0).getGrid();
         Assertions.assertEquals(6, grid.getRowsNumber());
@@ -36,12 +41,34 @@ public class InputParserTest {
 
     @Test
     public void testParseInputWithProperMultipleMowers()
-            throws FileNotFoundException, BadInputFormatException, EmptyInputException {
+            throws FileNotFoundException, BadInputFormatException {
         File inputTestFile = new File(
                 InputParserTest.class.getClassLoader().
-                        getResource("inputParser/CorrectInputMultiMowers").getFile());
+                        getResource(TEST_DIR + "correctInputMultiMowers").getFile());
         List<MowerManager> managers = new InputParser().parseInputFromFile(inputTestFile);
         Assertions.assertEquals(2, managers.size());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"noOrientation", "wrongOrientation","negativePositionOutOfBounds", "positionOutOfBounds", "lettersAsIndex","emptyCommands","wrongCommands"})
+    public void testParseInputMowerNotCreated(String fileName)
+            throws FileNotFoundException, BadInputFormatException {
+        File inputTestFile = new File(
+                InputParserTest.class.getClassLoader().
+                        getResource(TEST_DIR + MOWER_DIR + fileName).getFile());
+        List<MowerManager> managers = new InputParser().parseInputFromFile(inputTestFile);
+        Assertions.assertEquals(0, managers.size());
+    }
+
+    @Test
+    public void testOnlyTheFirstMowerIsCreated()
+            throws FileNotFoundException, BadInputFormatException {
+        File inputTestFile = new File(
+                InputParserTest.class.getClassLoader().
+                        getResource(TEST_DIR + MOWER_DIR +  "mowersInSamePosition").getFile());
+        List<MowerManager> managers = new InputParser().parseInputFromFile(inputTestFile);
+        Assertions.assertEquals(1, managers.size());
+        Assertions.assertEquals(OrientationEnum.N, managers.get(0).getMower().getCurrentOrientation());
     }
 
     @Test
@@ -53,10 +80,10 @@ public class InputParserTest {
 
     @Test
     public void testParseInputEmptyFile(){
-        Assertions.assertThrows(EmptyInputException.class, () -> {
+        Assertions.assertThrows(BadInputFormatException.class, () -> {
             File inputTestFile = new File(
                     InputParserTest.class.getClassLoader().
-                            getResource("inputParser/EmptyInput").getFile());
+                            getResource(TEST_DIR + "emptyInput").getFile());
             new InputParser().parseInputFromFile(inputTestFile);
         });
     }
@@ -66,27 +93,27 @@ public class InputParserTest {
         Assertions.assertThrows(BadInputFormatException.class, () -> {
             File inputTestFile = new File(
                     InputParserTest.class.getClassLoader().
-                            getResource("inputParser/WrongGridFormat").getFile());
+                            getResource(TEST_DIR + GRID_DIR + "wrongFormat").getFile());
             new InputParser().parseInputFromFile(inputTestFile);
         });
     }
 
     @Test
-    public void testParseInputWrongMowerFormat(){
+    public void testParseInputWrongGridValues(){
         Assertions.assertThrows(BadInputFormatException.class, () -> {
             File inputTestFile = new File(
                     InputParserTest.class.getClassLoader().
-                            getResource("inputParser/WrongMowerFormat").getFile());
+                            getResource(TEST_DIR + GRID_DIR + "wrongValues").getFile());
             new InputParser().parseInputFromFile(inputTestFile);
         });
     }
 
     @Test
-    public void testParseInputMowerHasNoCommands(){
+    public void testParseInputLetterInGridValues(){
         Assertions.assertThrows(BadInputFormatException.class, () -> {
             File inputTestFile = new File(
                     InputParserTest.class.getClassLoader().
-                            getResource("inputParser/WrongMowerFormatV2").getFile());
+                            getResource(TEST_DIR + GRID_DIR + "wrongValuesWithLetters").getFile());
             new InputParser().parseInputFromFile(inputTestFile);
         });
     }

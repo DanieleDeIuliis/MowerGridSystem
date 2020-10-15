@@ -1,7 +1,6 @@
 package com.mowergridsystem.consoleapp;
 
 import com.mowergridsystem.exceptions.BadInputFormatException;
-import com.mowergridsystem.exceptions.EmptyInputException;
 import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,7 +20,7 @@ public class ConsoleAppTest {
     @ParameterizedTest
     @ValueSource(strings = {"singleMower", "multipleMowers", "mowerCollision", "moveAlwaysLeft", "mowerCrash"})
     public void testCallComputePriceAndTaxesService(String fileName)
-            throws FileNotFoundException, InterruptedException, BadInputFormatException, EmptyInputException {
+            throws FileNotFoundException, InterruptedException, BadInputFormatException {
         String pathToTestFile =
                 this.getClass().getClassLoader().
                         getResource(INPUT_DIR + fileName + FILE_EXTENSION).getFile();

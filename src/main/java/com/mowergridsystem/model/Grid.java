@@ -71,7 +71,7 @@ public class Grid {
         int newColumn = newPosition.getColumnCoordinate();
         return newRow >= 0 && newRow < rows && newColumn >= 0 && newColumn < columns;
     }
-    private boolean isNewPositionValid(Position newPosition){
+    public boolean isNewPositionValid(Position newPosition){
         return isPositionInsideBoard(newPosition) && !isCellOccupied(newPosition);
     }
 

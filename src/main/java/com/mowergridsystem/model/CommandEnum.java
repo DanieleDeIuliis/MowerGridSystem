@@ -13,4 +13,12 @@ public enum CommandEnum {
     public int getValue(){
         return value;
     }
+
+    public static boolean contains(String value){
+        for(CommandEnum command : CommandEnum.values()){
+            if(command.name().equals(value))
+                return true;
+        }
+        return false;
+    }
 }

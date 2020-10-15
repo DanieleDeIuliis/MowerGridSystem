@@ -1,7 +1,6 @@
 package com.mowergridsystem.consoleapp;
 
 import com.mowergridsystem.exceptions.BadInputFormatException;
-import com.mowergridsystem.exceptions.EmptyInputException;
 import com.mowergridsystem.model.MowerManager;
 import com.mowergridsystem.service.ExecuteCommand;
 
@@ -13,7 +12,7 @@ import java.util.Scanner;
 public class ConsoleApp {
 
     public static String computeMowerGridSystemService(String filePath)
-            throws FileNotFoundException, BadInputFormatException, EmptyInputException, InterruptedException {
+            throws FileNotFoundException, BadInputFormatException, InterruptedException {
         ExecuteCommand mowerService = new ExecuteCommand();
         List<MowerManager> managers;
         File inputFile = new File(filePath.trim());
@@ -23,7 +22,7 @@ public class ConsoleApp {
     }
 
     public static void main(String[] args)
-            throws FileNotFoundException, BadInputFormatException, EmptyInputException, InterruptedException {
+            throws FileNotFoundException, BadInputFormatException, InterruptedException {
         System.out.println("Please insert the full path of the input file including the extension:");
         Scanner inputReader = new Scanner(System.in);
         String filePath = inputReader.nextLine();

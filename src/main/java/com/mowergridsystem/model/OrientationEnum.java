@@ -14,4 +14,12 @@ public enum OrientationEnum {
     public int getValue(){
         return value;
     }
+
+    public static boolean contains(String value){
+        for(OrientationEnum orientation : OrientationEnum.values()){
+            if(orientation.name().equals(value))
+                return true;
+        }
+        return false;
+    }
 }
