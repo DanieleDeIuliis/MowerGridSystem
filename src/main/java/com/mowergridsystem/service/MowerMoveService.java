@@ -12,25 +12,46 @@ import java.util.stream.Collectors;
 
 public class MowerMoveService {
 
+    /**
+     * Computes all the commands queue of the managers executing one step at a time.
+     * A step represents the execution of the next command for each active manager.
+     * It assumes that changing direction and moving require that same amount of time.
+     * @param mowerManagers the managers that have mowers to move
+     * @throws InterruptedException
+     */
     public void executeCommands(List<MowerManager> mowerManagers) throws InterruptedException {
-        int workingManagerSize = mowerManagers.size();
-        ExecutorService threadPool = Executors.newFixedThreadPool(workingManagerSize);
+        ExecutorService threadPool = Executors.newFixedThreadPool(mowerManagers.size());
         List<MowerManager> workingManagers = new ArrayList<>(mowerManagers);
-        while(workingManagerSize > 0){
-            CountDownLatch countDownLatch = new CountDownLatch(workingManagerSize);
-            for(MowerManager manager : workingManagers){
-                threadPool.submit(() -> {
-                    manager.executeNextCommand();
-                    countDownLatch.countDown();
-                });
-                TimeUnit.MICROSECONDS.sleep(1);
-            }
-            countDownLatch.await();
+        while(workingManagers.size() > 0){
+            executeStep(workingManagers, threadPool);
             workingManagers = workingManagers.stream()
                     .filter(m -> !(m.getCommands()).isEmpty())
                     .collect(Collectors.toList());
-            workingManagerSize = workingManagers.size();
         }
         threadPool.shutdown();
+    }
+
+    /**
+     * Computes one global step: Executes the next command of all the working manager.
+     * After submitting the job to a thread in the pool.
+     *
+     * It waits 1 MICROSECONDS to ensures that the behaviour during the tests is deterministic.
+     *
+     * @param workingManagers the managers that have still commands to execute
+     * @param threadPool the thread pool that will execute the commands. One per manager
+     * @throws InterruptedException
+     */
+    private void executeStep(List<MowerManager> workingManagers, ExecutorService threadPool)
+            throws InterruptedException {
+        CountDownLatch countDownLatch = new CountDownLatch(workingManagers.size());
+        for(MowerManager manager : workingManagers){
+            threadPool.submit(() -> {
+                manager.executeNextCommand();
+                countDownLatch.countDown();
+            });
+            TimeUnit.MICROSECONDS.sleep(1);
+        }
+        countDownLatch.await();
+
     }
 }

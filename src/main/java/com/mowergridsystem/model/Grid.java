@@ -17,19 +17,43 @@ public class Grid {
         initializeBoard();
     }
 
+    /**
+     * @return a deep copy of the board
+     */
     public Cell[][] getBoard(){
         return Arrays.stream(board).map(copyRow).toArray(Cell[][]::new);
     }
 
-
-    public boolean isCellOccupied(Position position){
-        return (board[position.getRowCoordinate()][position.getColumnCoordinate()]).isOccupied();
+    /**
+     * Checks whether the new position is inside the board and if the cell is already occupied.
+     * In addition, if the new position is valid, changes the state of the two cells. It frees
+     * first one, and occupy the second. The synchronized ensures that only one thread at a time
+     * is able to request the state change of the board.
+     * @param oldPosition Original position
+     * @param newPosition Position to move in
+     * @return The validity of the new position.
+     */
+    public synchronized boolean checkPositionAndChangeState(Position oldPosition, Position newPosition){
+        if(isNewPositionValid(newPosition)){
+            invertPositionIsOccupiedState(oldPosition);
+            invertPositionIsOccupiedState(newPosition);
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * Inverts the state of a cell which could be either free or occupied
+     * @param position position representing the cell to change
+     */
     public void invertPositionIsOccupiedState(Position position){
         Cell currentCell = board[position.getRowCoordinate()][position.getColumnCoordinate()];
         boolean invertedCurrentCellState = !currentCell.isOccupied();
         currentCell.setOccupied(invertedCurrentCellState);
+    }
+
+    public boolean isNewPositionValid(Position newPosition){
+        return isPositionInsideBoard(newPosition) && !isCellOccupied(newPosition);
     }
 
     public int getRowsNumber() {
@@ -38,15 +62,6 @@ public class Grid {
 
     public int getColumnsNumber() {
         return columns;
-    }
-
-    public synchronized boolean checkPositionAndChangeState(Position oldPosition, Position newPosition){
-        if(isNewPositionValid(newPosition)){
-            invertPositionIsOccupiedState(oldPosition);
-            invertPositionIsOccupiedState(newPosition);
-            return true;
-        }
-        return false;
     }
 
     private void initializeBoard(){
@@ -69,8 +84,9 @@ public class Grid {
         int newColumn = newPosition.getColumnCoordinate();
         return newRow >= 0 && newRow < rows && newColumn >= 0 && newColumn < columns;
     }
-    public boolean isNewPositionValid(Position newPosition){
-        return isPositionInsideBoard(newPosition) && !isCellOccupied(newPosition);
+
+    private boolean isCellOccupied(Position position){
+        return board[position.getRowCoordinate()][position.getColumnCoordinate()].isOccupied();
     }
 
 }

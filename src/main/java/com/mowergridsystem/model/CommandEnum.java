@@ -1,5 +1,12 @@
 package com.mowergridsystem.model;
 
+/**
+ * Enum to represent the three different commands supported:
+ * L = change the orientation 90 degrees to the left
+ * R = change the orientation 90 degrees to the right
+ * F = move forward
+ * The values are use to navigate a circular array of orientations.
+ */
 public enum CommandEnum {
     L(-1),
     R(1),

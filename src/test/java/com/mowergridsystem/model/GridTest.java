@@ -16,7 +16,8 @@ public class GridTest {
     public void invertPositionIsOccupiedStateTestFromFalseToTrue(){
         Position position = new Position(1,1);
         grid.invertPositionIsOccupiedState(position);
-        Assertions.assertTrue(grid.isCellOccupied(position));
+        Cell cell = grid.getBoard()[position.getRowCoordinate()][position.getColumnCoordinate()];
+        Assertions.assertTrue(cell.isOccupied());
         grid.invertPositionIsOccupiedState(position);
 
     }
@@ -27,7 +28,8 @@ public class GridTest {
         Position position = new Position(1,1);
         Cell copiedCell = clonedBoard[1][1];
         copiedCell.setOccupied(true);
-        boolean originalValue = grid.isCellOccupied(position);
+        Cell originalCell = grid.getBoard()[position.getRowCoordinate()][position.getColumnCoordinate()];
+        boolean originalValue = originalCell.isOccupied();
         Assertions.assertNotEquals(originalValue, copiedCell.isOccupied());
 
     }
